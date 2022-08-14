@@ -98,7 +98,7 @@ deque(['{"time": 1609459209, "relay_1": false, "relay_0": false, "temp_c": 27.81
        '{"time": 1609459212, "relay_1": false, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459213, "relay_1": false, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459214, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {"relay_1": "on"}}',
-       '{"time": 1609459215, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {"input": "\\n"}}',
+       '{"time": 1609459215, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459216, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}'])
 
 In [7]: device.write(to_json(dict(relay_0="toggle", relay_1="toggle")))
@@ -111,12 +111,12 @@ deque(['{"time": 1609459209, "relay_1": false, "relay_0": false, "temp_c": 27.81
        '{"time": 1609459212, "relay_1": false, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459213, "relay_1": false, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459214, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {"relay_1": "on"}}',
-       '{"time": 1609459215, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {"input": "\\n"}}',
+       '{"time": 1609459215, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459216, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459217, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459218, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459219, "relay_1": true, "relay_0": false, "temp_c": 27.8125, "serial_input": {}}',
        '{"time": 1609459220, "relay_1": true, "relay_0": false, "temp_c": 27.875, "serial_input": {}}',
        '{"time": 1609459221, "relay_1": false, "relay_0": true, "temp_c": 27.875, "serial_input": {"relay_1": "toggle", "relay_0": "toggle"}}',
-       '{"time": 1609459222, "relay_1": false, "relay_0": true, "temp_c": 27.875, "serial_input": {"input": "\\n"}}'])
+       '{"time": 1609459222, "relay_1": false, "relay_0": true, "temp_c": 27.875, "serial_input": {}}'])
 ```
