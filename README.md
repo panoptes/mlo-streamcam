@@ -11,6 +11,12 @@ The `banner.txt` file can be updated manually and will update in the video as so
 
 The `time.txt` file is updated automatically by the [`get-updates.py`](get-updates.py) script.
 
+Both [`get-updates.py`](get-updates.py) and [`start-stream.sh`](start-stream.sh) are controlled by supervisord via the [`supervisord.conf`](supervisord.conf), which should be symlinked into the main configuration directory:
+
+```bash
+sudo ln -s $PWD/supervisord.conf /etc/supervisor/conf.d/
+```
+
 ## pico-controller
 
 The pico controls the relays and reads the temperature from inside the camera box.
