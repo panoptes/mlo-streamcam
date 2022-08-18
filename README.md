@@ -1,7 +1,6 @@
 # mlo-streamcam
 Software and resources for the MLO streaming video camera system.
 
-
 ## Streaming
 
 The video stream is being done by `ffmpeg` in the [`start-stream.sh`](start-stream.sh) script.
@@ -17,3 +16,17 @@ The `time.txt` file is updated automatically by the [`get-updates.py`](get-updat
 The pico controls the relays and reads the temperature from inside the camera box.
 
 See the [README](pico-controller/README.md).
+
+## Requirements
+
+The `get-updates.py` script requires the `panoptes-utils` module to be installed:
+
+```bash
+pip install panoptes-utils
+```
+
+To use the [`supervisord.conf`](supervisord.conf) you must have [`supervisor`](http://supervisord.org/) installed:
+
+```bash
+sudo apt-get install supervisor
+```
