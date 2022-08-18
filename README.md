@@ -15,6 +15,8 @@ The `time.txt` file is updated automatically by the [`get-updates.py`](get-updat
 
 The pico controls the relays and reads the temperature from inside the camera box.
 
+The [`get-updates.py`](get-updates.py) script reads the output from [`pico-controller/main.py`](pico-controller/main.py) over the serial line and stores it in a file called `pico-log.json`.
+
 See the [README](pico-controller/README.md).
 
 ## Requirements
