@@ -20,7 +20,6 @@ def main():
                 f0.write(f'{dt.now():%c} HST {device.readings[-1]["temp_c"]:10.01f}° C')
 
                 # Write the readings.
-                print(device.readings[-1])
                 f1.write(to_json(device.readings[-1]) + '\n')
             except Exception as e:
                 print(e)
