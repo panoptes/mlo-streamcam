@@ -9,7 +9,7 @@ modprobe -v -r uvcvideo && modprobe -v uvcvideo
 # https://stackoverflow.com/questions/17623676/text-on-video-ffmpeg
 
 ffmpeg \
-    -f lavfi -c:a aac -i anullsrc \
+    -f lavfi -i anullsrc -acodec aac \
     -f v4l2 \
     -thread_queue_size 128 \
     -framerate 30 \
