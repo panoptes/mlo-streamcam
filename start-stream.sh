@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Source .env file in directory.
+set -o allexport; source .env; set +o allexport
 STREAM_KEY="${STREAM_KEY:-ENTER STREAM KEY}"
 
 # Clears video buffer message.
