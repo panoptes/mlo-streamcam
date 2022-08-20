@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-STREAM_KEY=...
+STREAM_KEY="${STREAM_KEY:-ENTER STREAM KEY}"
 
 # Clears video buffer message.
 modprobe -v -r uvcvideo && modprobe -v uvcvideo
