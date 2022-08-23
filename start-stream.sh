@@ -4,11 +4,13 @@
 set -o allexport; source .env; set +o allexport
 
 STREAM_KEY="${STREAM_KEY:-ENTER STREAM KEY}"
+CRF=${CRF:-18}
 FRAMERATE=${FRAMERATE:-30}
 KEYFRAMERATE=${KEYFRAMERATE:-30}  # in fps
 VIDEO_SIZE=${VIDEO_SIZE:-uhd2160}
 BUFFER_SIZE=${BUFFER_SIZE:-4M}
 MAX_RATE=${MAX_RATE:-20M}
+PRESET=${PRESET:-ultrafast}
 
 # Clears video buffer message.
 modprobe -v -r uvcvideo && modprobe -v uvcvideo
@@ -27,9 +29,10 @@ ffmpeg \
     -vcodec libx264 \
     -pix_fmt yuv422p \
     -s "${VIDEO_SIZE}" \
-    -preset ultrafast \
+    -preset "${PRESET}" \
     -r "${FRAMERATE}" \
     -g "${KEYFRAMERATE}" \
+    -crf "${CRF}" \
     -bufsize "${BUFFER_SIZE}" \
     -maxrate "${MAX_RATE}" \
     -f flv "rtmp://a.rtmp.youtube.com/live2/${STREAM_KEY}"
