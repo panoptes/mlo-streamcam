@@ -10,7 +10,7 @@ KEYFRAMERATE=${KEYFRAMERATE:-30}  # in fps
 VIDEO_SIZE=${VIDEO_SIZE:-uhd2160}
 BUFFER_SIZE=${BUFFER_SIZE:-4M}
 MAX_RATE=${MAX_RATE:-20M}
-PRESET=${PRESET:-ultrafast}
+PRESET=${PRESET:-faster}
 
 # Clears video buffer message.
 modprobe -v -r uvcvideo && modprobe -v uvcvideo
