@@ -16,11 +16,15 @@ def main():
     while True:
         with time_path.open('w') as f0, pico_log.open('a') as f1:
             try:
+                # Get the temperature
+                temp_c = device.readings[-1]["temp_c"]
+
                 # Write to the time.txt file, include the temperature.
-                f0.write(f'{dt.now():%c} HST {device.readings[-1]["temp_c"]:10.01f}° C')
+                f0.write(f'{dt.now():%c} HST {temp_c:10.01f}° C')
 
                 # Write the readings.
-                f1.write(to_json(device.readings[-1]) + '\n')
+                f1.write(to_json(dict(time=dt.now().isoformat(), temp_c=temp_c)))
+                f1.write('\n')
             except Exception as e:
                 print(e)
 

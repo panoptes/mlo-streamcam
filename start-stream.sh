@@ -11,21 +11,30 @@ VIDEO_SIZE=${VIDEO_SIZE:-uhd2160}
 BUFFER_SIZE=${BUFFER_SIZE:-4M}
 MAX_RATE=${MAX_RATE:-20M}
 PRESET=${PRESET:-faster}
+BSFILTERS=${BSFILTERS:-atadenoise=s=10}
+
+# For text options see:
+# https://stackoverflow.com/questions/17623676/text-on-video-ffmpeg
+TEXT_STYLE="fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5"
+POSITION_BL="x=10:y=h-(text_h-10)"
+POSITION_BR="x=w-(text_w+10):y=h-(text_h-10)"
+BANNER_TEXT="drawtext=textfile=banner.txt:reload=1:${TEXT_STYLE}:${POSITION_BL}"
+TIME_TEXT="drawtext=textfile=time.txt:reload=1:${TEXT_STYLE}:${POSITION_BR}"
 
 # Clears video buffer message.
 modprobe -v -r uvcvideo && modprobe -v uvcvideo
 
-# For text options see:
-# https://stackoverflow.com/questions/17623676/text-on-video-ffmpeg
+# Update the banner text to show the settings except key.
+cat .env | grep -v STREAM_KEY > banner.txt
 
 ffmpeg \
-    -f lavfi -i anullsrc -acodec aac \
+    -a:c copy \
     -f v4l2 \
     -thread_queue_size 128 \
     -framerate "${FRAMERATE}" \
     -video_size "${VIDEO_SIZE}" \
     -i /dev/video0 \
-    -vf "drawtext=textfile=time.txt:reload=1:fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=w-text_w-10:y=(h-text_h)-10,drawtext=textfile=banner.txt:reload=1:fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5:x=10:y=(h-text_h)-10" \
+    -vf "${TIME_TEXT},${BANNER_TEXT},${BSFILTERS}" \
     -vcodec libx264 \
     -pix_fmt yuv422p \
     -s "${VIDEO_SIZE}" \
