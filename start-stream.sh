@@ -18,8 +18,8 @@ DEBUG=${DEBUG:-false}
 # For text options see:
 # https://stackoverflow.com/questions/17623676/text-on-video-ffmpeg
 TEXT_STYLE="fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5"
-POSITION_BL="x=10:y=h-(text_h-10)"
-POSITION_BR="x=w-(text_w+10):y=h-(text_h-10)"
+POSITION_BL="x=10:y=h-(text_h+10)"
+POSITION_BR="x=w-(text_w+10):y=h-(text_h+10)"
 BANNER_TEXT="drawtext=textfile=banner.txt:reload=1:${TEXT_STYLE}:${POSITION_BL}"
 TIME_TEXT="drawtext=textfile=time.txt:reload=1:${TEXT_STYLE}:${POSITION_BR}"
 
