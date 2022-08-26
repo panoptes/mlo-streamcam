@@ -36,7 +36,7 @@ fi
 
 
 ffmpeg \
-    -a:c copy \
+    -f lavfi -i anullsrc -acodec aac \
     -f v4l2 \
     -thread_queue_size 128 \
     -framerate "${FRAMERATE}" \
