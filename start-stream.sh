@@ -40,7 +40,7 @@ ffmpeg \
     -framerate "${FRAMERATE}" \
     -video_size "${VIDEO_SIZE}" \
     -i /dev/video0 \
-    -vf "${TIME_TEXT},${BANNER_TEXT},${BSFILTERS}" \
+    -vf "${BSFILTERS},${TIME_TEXT},${BANNER_TEXT}" \
     -vcodec libx264 \
     -pix_fmt yuv422p \
     -s "${VIDEO_SIZE}" \
