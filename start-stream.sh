@@ -36,7 +36,7 @@ fi
 ffmpeg \
     -f lavfi -i anullsrc -acodec aac \
     -f v4l2 \
-    -thread_queue_size 1024 \
+    -thread_queue_size 512 \
     -framerate "${FRAMERATE}" \
     -video_size "${VIDEO_SIZE}" \
     -i /dev/video0 \
