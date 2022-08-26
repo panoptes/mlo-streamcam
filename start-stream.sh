@@ -13,6 +13,8 @@ MAX_RATE=${MAX_RATE:-20M}
 PRESET=${PRESET:-faster}
 BSFILTERS=${BSFILTERS:-tmix=6}
 
+DEBUG=${DEBUG:-false}
+
 # For text options see:
 # https://stackoverflow.com/questions/17623676/text-on-video-ffmpeg
 TEXT_STYLE="fontcolor=yellow:fontsize=36:box=1:boxcolor=black@0.5:boxborderw=5"
@@ -24,8 +26,14 @@ TIME_TEXT="drawtext=textfile=time.txt:reload=1:${TEXT_STYLE}:${POSITION_BR}"
 # Clears video buffer message.
 modprobe -v -r uvcvideo && modprobe -v uvcvideo
 
-# Update the banner text to show the settings except key.
-cat .env | grep -v STREAM_KEY > banner.txt
+if [ "$DEBUG" == true ]; then
+    # Update the banner text to show the settings except key.
+    cat .env | grep -v STREAM_KEY > banner.txt
+else 
+    echo "Project PANOPTES" > banner.txt
+fi
+
+
 
 ffmpeg \
     -a:c copy \
