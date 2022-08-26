@@ -11,7 +11,7 @@ VIDEO_SIZE=${VIDEO_SIZE:-uhd2160}
 BUFFER_SIZE=${BUFFER_SIZE:-4M}
 MAX_RATE=${MAX_RATE:-20M}
 PRESET=${PRESET:-faster}
-BSFILTERS=${BSFILTERS:-tmix=1}
+BSFILTERS=${BSFILTERS:-tmix=6}
 
 # For text options see:
 # https://stackoverflow.com/questions/17623676/text-on-video-ffmpeg
