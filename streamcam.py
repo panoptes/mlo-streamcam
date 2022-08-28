@@ -19,9 +19,6 @@ class VideoSettings(BaseSettings):
     def stream_url(self):
         return f'rtmp://a.rtmp.youtube.com/live2/{self.stream_key}'
 
-    class Config:
-        env_prefix = 'pocs_'
-
 
 font_styles = dict(
     fontcolor='yellow',
