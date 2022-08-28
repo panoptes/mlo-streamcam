@@ -1,5 +1,10 @@
+from pathlib import Path
+
 import ffmpeg
 from pydantic import BaseSettings
+
+banner_path = Path('banner.txt')
+time_path = Path('time.txt')
 
 
 class VideoSettings(BaseSettings):
@@ -14,6 +19,7 @@ class VideoSettings(BaseSettings):
     buf_size: str | int = '5M'
     max_rate: str | int = '40M'
     thread_queue_size: int = 512
+    debug: bool = False
 
     @property
     def stream_url(self):
@@ -41,11 +47,17 @@ audio_in = ffmpeg.input('anullsrc', format='lavfi')
 video_in = video_in.filter('tblend', all_mode='average')
 
 # Add the text from the banner and the time.
-video_in = video_in.drawtext(textfile='banner.txt',
+with banner_path.open('w') as f:
+    if video_settings.debug:
+        f.write(video_settings.json(indent=2))
+    else:
+        f.write('Project PANOPTES MLO Streamcam')
+
+video_in = video_in.drawtext(textfile=banner_path.as_posix(),
                              reload=True,
                              **font_styles,
                              y='h-10-text_h')
-video_in = video_in.drawtext(textfile='time.txt',
+video_in = video_in.drawtext(textfile=time_path.as_posix(),
                              reload=True,
                              **font_styles,
                              x='w-10-text_w',
