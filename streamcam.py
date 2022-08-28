@@ -11,8 +11,8 @@ class VideoSettings(BaseSettings):
     keyframerate: int = 60
     # n.b. ffmpeg-python does not support named sized, e.g. uhd2160.
     video_size: str = '3840x2160'
-    bufsize: str | int = '5M'
-    maxrate: str | int = '40M'
+    buf_size: str | int = '5M'
+    max_rate: str | int = '40M'
     thread_queue_size: int = 512
 
     @property
@@ -37,6 +37,7 @@ video_in = ffmpeg.input('/dev/video0', s=video_settings.video_size,
 audio_in = ffmpeg.input('anullsrc', format='lavfi')
 
 # Filter the frames with a simple two-frame time-blend.
+# TODO pull from env var.
 video_in = video_in.filter('tblend', all_mode='average')
 
 # Add the text from the banner and the time.
@@ -60,8 +61,8 @@ output = ffmpeg.output(audio_in,
                        r=video_settings.framerate,
                        g=video_settings.keyframerate,
                        s=video_settings.video_size,
-                       bufsize=video_settings.bufsize,
-                       maxrate=video_settings.maxrate
+                       bufsize=video_settings.buf_size,
+                       maxrate=video_settings.max_rate
                        )
 
 output.run()
