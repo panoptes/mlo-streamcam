@@ -31,8 +31,8 @@ video_in = video_in_split[0]
 if video_settings.show_zoom:
     video_in_overlay = video_in_split[1].crop(x=f'iw/{video_settings.crop_scale}',
                                               y=f'ih/{video_settings.crop_scale}',
-                                              w=f'iw/{video_settings.crop_scale}',
-                                              h=f'ih/{video_settings.crop_scale}')
+                                              width=f'iw/{video_settings.crop_scale}',
+                                              height=f'ih/{video_settings.crop_scale}')
 
     video_in = video_in.overlay(video_in_overlay, x=10, y=10)
 
