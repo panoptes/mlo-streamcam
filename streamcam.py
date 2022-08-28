@@ -52,7 +52,7 @@ video_in = video_in.filter('tblend', all_mode='average')
 # Add the text from the banner and the time.
 with banner_path.open('w') as f:
     if video_settings.debug:
-        f.write(video_settings.json(indent=2))
+        f.write(video_settings.json(indent=2, exclude={'stream_key'}))
     else:
         f.write('Project PANOPTES MLO Streamcam')
 
