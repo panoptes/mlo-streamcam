@@ -15,14 +15,14 @@ audio_in = ffmpeg.input('anullsrc', format='lavfi')
 # Filter the frames with a simple two-frame time-blend.
 # TODO pull from settings.
 if video_settings.tblend:
-    video_in = video_in.filter('chromanr')
     video_in = video_in.filter('tblend', all_mode='average')
     video_in = video_in.filter('zmq')
 
 # Add the text from the banner and the time.
 with video_settings.banner_path.open('w') as f:
     if video_settings.debug:
-        f.write(video_settings.json(indent=2, exclude={'stream_key'}))
+        f.write(video_settings.json(indent=2, exclude={'stream_key', 'font_styles', 'banner_path',
+                                                       'time_path'}))
     else:
         f.write('Project PANOPTES MLO Streamcam')
 
