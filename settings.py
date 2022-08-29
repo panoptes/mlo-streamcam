@@ -23,7 +23,7 @@ class VideoSettings(BaseSettings):
     buf_size: str | int = '5M'
     max_rate: str | int = '40M'
     thread_queue_size: int = 512
-    tblend: bool = False
+    tmix: bool = False
     debug: bool = False
 
     banner_path: Path = Path('banner.txt')
