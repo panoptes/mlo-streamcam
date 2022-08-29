@@ -25,16 +25,18 @@ audio_in = ffmpeg.input('anullsrc', format='lavfi')
 
 # Filter the frames with a simple two-frame time-blend.
 # TODO pull from env var.
-video_in_split = video_in.filter('tblend', all_mode='average').filter_multi_output('split')
-video_in = video_in_split[0]
+if video_settings.tblend:
+    video_in = video_in.filter('tblend', all_mode='average')
+    video_in = video_in.filter('zmq')
 
 if video_settings.show_zoom:
-    video_in_overlay = video_in_split[1].crop(x=f'iw/{video_settings.crop_scale}',
-                                              y=f'ih/{video_settings.crop_scale}',
-                                              width=f'iw/{video_settings.crop_scale}',
-                                              height=f'ih/{video_settings.crop_scale}')
+    video_in_split = video_in.filter_multi_output('split')
+    video_in_overlay = video_in_split[1].crop(x=f'(iw/2)-50',
+                                              y=f'(ih/2)-50',
+                                              width=f'100',
+                                              height=f'100')
 
-    video_in = video_in.overlay(video_in_overlay, x=10, y=10)
+    video_in = video_in_split[0].overlay(video_in_overlay.filter('scale', width='400', height='400'), x=10, y=10)
 
 # Add the text from the banner and the time.
 with banner_path.open('w') as f:
