@@ -1,4 +1,14 @@
-from pydantic import BaseSettings
+from pathlib import Path
+
+from pydantic import BaseSettings, BaseModel
+
+
+class TextStyle(BaseModel):
+    fontcolor: str = 'yellow'
+    fontsize: int = 36
+    box: int = 1
+    boxcolor: str = 'black@0.5'
+    boxborderw: int = 5
 
 
 class VideoSettings(BaseSettings):
@@ -13,9 +23,13 @@ class VideoSettings(BaseSettings):
     buf_size: str | int = '5M'
     max_rate: str | int = '40M'
     thread_queue_size: int = 512
-    show_zoom: bool = False
     tblend: bool = False
     debug: bool = False
+
+    banner_path: Path = Path('banner.txt')
+    time_path: Path = Path('time.txt')
+
+    font_styles: TextStyle = TextStyle()
 
     @property
     def stream_url(self):

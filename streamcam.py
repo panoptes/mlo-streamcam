@@ -4,17 +4,6 @@ import ffmpeg
 
 from settings import VideoSettings
 
-banner_path = Path('banner.txt')
-time_path = Path('time.txt')
-
-font_styles = dict(
-    fontcolor='yellow',
-    fontsize=36,
-    box=1,
-    boxcolor='black@0.5',
-    boxborderw=5,
-)
-
 video_settings = VideoSettings()
 
 # Set up the video source and a fake audio source.
@@ -24,34 +13,26 @@ video_in = ffmpeg.input('/dev/video0', s=video_settings.video_size,
 audio_in = ffmpeg.input('anullsrc', format='lavfi')
 
 # Filter the frames with a simple two-frame time-blend.
-# TODO pull from env var.
+# TODO pull from settings.
 if video_settings.tblend:
+    video_in = video_in.filter('chromanr')
     video_in = video_in.filter('tblend', all_mode='average')
     video_in = video_in.filter('zmq')
 
-if video_settings.show_zoom:
-    video_in_split = video_in.filter_multi_output('split')
-    video_in_overlay = video_in_split[1].crop(x=f'(iw/2)-50',
-                                              y=f'(ih/2)-50',
-                                              width=f'100',
-                                              height=f'100')
-
-    video_in = video_in_split[0].overlay(video_in_overlay.filter('scale', width='400', height='400'), x=10, y=10)
-
 # Add the text from the banner and the time.
-with banner_path.open('w') as f:
+with video_settings.banner_path.open('w') as f:
     if video_settings.debug:
         f.write(video_settings.json(indent=2, exclude={'stream_key'}))
     else:
         f.write('Project PANOPTES MLO Streamcam')
 
-video_in = video_in.drawtext(textfile=banner_path.as_posix(),
+video_in = video_in.drawtext(textfile=video_settings.banner_path.as_posix(),
                              reload=True,
-                             **font_styles,
+                             **video_settings.font_styles.dict(),
                              y='h-10-text_h')
-video_in = video_in.drawtext(textfile=time_path.as_posix(),
+video_in = video_in.drawtext(textfile=video_settings.time_path.as_posix(),
                              reload=True,
-                             **font_styles,
+                             **video_settings.font_styles.dict(),
                              x='w-10-text_w',
                              y='h-10-text_h')
 
