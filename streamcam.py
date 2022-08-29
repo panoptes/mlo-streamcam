@@ -15,7 +15,7 @@ audio_in = ffmpeg.input('anullsrc', format='lavfi')
 # Filter the frames with a simple two-frame time-blend.
 # TODO pull from settings.
 if video_settings.tmix:
-    video_in = video_in.filter('tmix', frames=4, weights='1 1 1 1')
+    video_in = video_in.filter('tmix', frames=3, weights='1 1 1')
     video_in = video_in.filter('zmq')
 
 # Add the text from the banner and the time.
