@@ -18,12 +18,12 @@ class VideoSettings(BaseSettings):
     preset: str = 'superfast'
     framerate: int = 25
     keyframerate: int = 25
+    filters: str = 'tmix=frames=3:weights=1 1 1'
     # n.b. ffmpeg-python does not support named sized, e.g. uhd2160.
     video_size: str = '3840x2160'
     buf_size: str | int = '5M'
     max_rate: str | int = '40M'
     thread_queue_size: int = 512
-    tmix: bool = False
     debug: bool = False
 
     banner_path: Path = Path('banner.txt')
