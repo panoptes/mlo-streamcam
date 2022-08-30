@@ -12,14 +12,6 @@ from settings import VideoSettings
 app = typer.Typer()
 
 
-def parse_filters(filters_string):
-    """Parse a filter string into a list of ffmpeg filters."""
-    filters = {}
-    for filter_str in filters_string.split(','):
-        filter_name, filter_args = filter_str.split('=', 1)
-        yield filter_name, dict(arg.split('=') for arg in filter_args.split(':'))
-
-
 @app.command('stream')
 def stream_video(dry_run: bool = False):
     """Stream the video camera to YouTube."""
@@ -116,6 +108,18 @@ def monitor_environment(port: str = '/dev/ttyACM0',
                 print(e)
 
         time.sleep(1)
+
+
+def parse_filters(filters_string):
+    """Parse a filter string into a list of ffmpeg filters.
+
+    Given a string of ffmpeg filters, e.g. 'tmix=frames=3:weights=1 1 1',
+    yield the name of the filter and a dictionary of the arguments, i.e.
+    ('tmix', {'frames': '3', 'weights': '1 1 1'}).
+    """
+    for filter_str in filters_string.split(','):
+        filter_name, filter_args = filter_str.split('=', 1)
+        yield filter_name, dict(arg.split('=') for arg in filter_args.split(':'))
 
 
 if __name__ == '__main__':
