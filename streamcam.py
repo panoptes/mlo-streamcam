@@ -1,7 +1,15 @@
-import typer
+import time
+from datetime import datetime as dt
+from pathlib import Path
+
 import ffmpeg
+import typer
+from panoptes.utils.serial.device import SerialDevice
+from panoptes.utils.serializers import from_json, to_json
 
 from settings import VideoSettings
+
+app = typer.Typer()
 
 
 def parse_filters(filters_string):
@@ -12,17 +20,19 @@ def parse_filters(filters_string):
         yield filter_name, dict(arg.split('=') for arg in filter_args.split(':'))
 
 
-def main():
+@app.command('stream')
+def stream_video(dry_run: bool = False):
+    """Stream the video camera to youtube."""
     # Get the video settings. This will load the .env file.
     video_settings = VideoSettings()
 
-    if video_settings.stream_key is None:
+    if video_settings.stream_key is None and dry_run is False:
         typer.secho('No stream key set. Please set the STREAM_KEY environment variable.',
                     fg=typer.colors.RED)
         return
 
     # Set up the video source and a fake audio source.
-    video_in = ffmpeg.input('/dev/video0', s=video_settings.video_size,
+    video_in = ffmpeg.input(video_settings.device, s=video_settings.video_size,
                             framerate=video_settings.framerate,
                             thread_queue_size=video_settings.thread_queue_size)
     audio_in = ffmpeg.input('anullsrc', format='lavfi')
@@ -70,8 +80,42 @@ def main():
                            )
 
     # Run the command.
-    output.run()
+    if dry_run:
+        typer.secho(output.compile(), fg=typer.colors.BLUE)
+        if video_settings.stream_key is None:
+            typer.secho('Showing None instead of stream key in above URL.', fg=typer.colors.RED)
+    else:
+        output.run()
+
+
+@app.command('monitor')
+def monitor_environment():
+    """Monitors the video camera environment.
+
+    This records the serial data from the pico controller, updates the time, and
+    may record other metadata.
+    """
+    device = SerialDevice(port='/dev/ttyACM0', reader_callback=from_json)
+    time_path = Path('time.txt')
+    pico_log = Path('pico-log.json')
+
+    while True:
+        with time_path.open('w') as f0, pico_log.open('a') as f1:
+            try:
+                # Get the temperature
+                temp_c = device.readings[-1]["temp_c"]
+
+                # Write to the time.txt file, include the temperature.
+                f0.write(f'{dt.now():%c} HST {temp_c:10.01f}° C')
+
+                # Write the readings.
+                f1.write(to_json(dict(time=dt.now().isoformat(), temp_c=temp_c)))
+                f1.write('\n')
+            except Exception as e:
+                print(e)
+
+        time.sleep(1)
 
 
 if __name__ == '__main__':
-    typer.run(main)
+    app()

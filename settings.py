@@ -14,6 +14,7 @@ class TextStyle(BaseModel):
 class VideoSettings(BaseSettings):
     """Settings for youtube streaming."""
     stream_key: str = None
+    device: str = '/dev/video0'
     crf: int = 20
     preset: str = 'superfast'
     framerate: int = 25
