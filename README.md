@@ -27,6 +27,9 @@ section below for more details.
 The system is controlled by [supervisord](http://supervisord.org/), which starts both the
 `stream` and `monitor` commands at system boot.
 
+The `stream` command is started via the [`start-streamcam.sh`](start-streamcam.sh) script in order to also unload and
+reload the linux usb drivers.
+
 ## Installation
 
 ### Requirements

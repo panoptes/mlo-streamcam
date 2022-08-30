@@ -12,7 +12,7 @@ class TextStyle(BaseModel):
 
 
 class VideoSettings(BaseSettings):
-    """Settings for youtube streaming."""
+    """Settings for YouTube streaming."""
     stream_key: str = None
     device: str = '/dev/video0'
     crf: int = 20
