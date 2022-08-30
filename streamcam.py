@@ -22,7 +22,7 @@ def parse_filters(filters_string):
 
 @app.command('stream')
 def stream_video(dry_run: bool = False):
-    """Stream the video camera to youtube."""
+    """Stream the video camera to YouTube."""
     # Get the video settings. This will load the .env file.
     video_settings = VideoSettings()
 
@@ -89,18 +89,19 @@ def stream_video(dry_run: bool = False):
 
 
 @app.command('monitor')
-def monitor_environment():
+def monitor_environment(port: str = '/dev/ttyACM0',
+                        time_path: Path = VideoSettings().time_path,
+                        log_path: Path = VideoSettings().log_path,
+                        ):
     """Monitors the video camera environment.
 
     This records the serial data from the pico controller, updates the time, and
     may record other metadata.
     """
-    device = SerialDevice(port='/dev/ttyACM0', reader_callback=from_json)
-    time_path = Path('time.txt')
-    pico_log = Path('pico-log.json')
+    device = SerialDevice(port=port, reader_callback=from_json)
 
     while True:
-        with time_path.open('w') as f0, pico_log.open('a') as f1:
+        with time_path.open('w') as f0, log_path.open('a') as f1:
             try:
                 # Get the temperature
                 temp_c = device.readings[-1]["temp_c"]

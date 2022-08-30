@@ -29,6 +29,7 @@ class VideoSettings(BaseSettings):
 
     banner_path: Path = Path('banner.txt')
     time_path: Path = Path('time.txt')
+    log_path: Path = Path('pico-log.json')
 
     font_styles: TextStyle = TextStyle()
 
