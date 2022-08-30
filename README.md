@@ -65,7 +65,8 @@ Options for ffmpeg are controlled via environment variables. See the [settings](
 The script overlays two text files onto the video, the `banner.txt` in the lower
 left corner and the `time.txt` in the lower right.
 
-The `banner.txt` file can be updated manually and will update in the video as soon as the file is saved.
+The `banner.txt` file can be updated manually and will update in the video as soon as the file is saved. If the
+environment variable `DEBUG=true` then the contents of `.env` (except the `STREAM_KEY`) will be displayed instead of the banner.
 
 The `time.txt` file is updated automatically by the `monitor` sub-command.
 
