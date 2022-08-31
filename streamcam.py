@@ -14,6 +14,16 @@ from settings import VideoSettings
 app = typer.Typer()
 
 
+@app.command('debug')
+def show_debug(show_debug: bool = False):
+    """Command to control the debug info."""
+    with video_settings.banner_path.open('w') as f:
+        if show_debug:
+            f.write(video_settings.json(indent=2, exclude={'stream_key'}))
+        else:
+            f.write('Project PANOPTES MLO Streamcam')
+
+
 @app.command('stream')
 def stream_video(dry_run: bool = False):
     """Stream the video camera to YouTube."""
@@ -38,12 +48,8 @@ def stream_video(dry_run: bool = False):
         # Add in zmq filter for command control.
         video_in = video_in.filter('zmq')
 
-    # Add the text from the banner and the time.
-    with video_settings.banner_path.open('w') as f:
-        if video_settings.debug:
-            f.write(video_settings.json(indent=2, exclude={'stream_key'}))
-        else:
-            f.write('Project PANOPTES MLO Streamcam')
+    # Turn on or off the debug info.
+    show_debug(video_settings.debug)
 
     # Draw the text boxes.
     video_settings.banner_path.touch(exist_ok=True)
