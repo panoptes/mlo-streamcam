@@ -17,7 +17,7 @@ app = typer.Typer()
 @app.command('debug')
 def show_debug(show_debug: bool = False):
     """Command to control the debug info."""
-    with video_settings.banner_path.open('w') as f:
+    with VideoSettings().banner_path.open('w') as f:
         if show_debug:
             f.write(video_settings.json(indent=2, exclude={'stream_key'}))
         else:
