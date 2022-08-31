@@ -58,6 +58,8 @@ def stream_video(dry_run: bool = False):
         video_in_overlay = video_in_split[1].crop(x=x, y=y, width=w, height=h)
 
         video_in = video_in_split[0].overlay(video_in_overlay.filter('scale', width='400', height='400'), x=10, y=10)
+        # Show the box on the original
+        video_in = video_in.drawbox(x, y, w, h, color='red', thickness=3)
 
     # Draw the text boxes.
     video_settings.banner_path.touch(exist_ok=True)
