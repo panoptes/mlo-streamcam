@@ -26,6 +26,7 @@ class VideoSettings(BaseSettings):
     max_rate: str | int = '40M'
     thread_queue_size: int = 512
     debug: bool = False
+    zoom_box: str | None = None  # 'x,y,w,w e.g. (iw/2-50),(iw/2-50),100,100'
 
     banner_path: Path = Path('banner.txt')
     time_path: Path = Path('time.txt')

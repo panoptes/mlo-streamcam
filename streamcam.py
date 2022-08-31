@@ -52,6 +52,13 @@ def stream_video(dry_run: bool = False):
     # Turn on or off the debug info.
     show_debug(video_settings.debug)
 
+    if video_settings.zoom_box is not None:
+        x, y, w, h = video_settings.zoom_box.split(',')
+        video_in_split = video_in.filter_multi_output('split')
+        video_in_overlay = video_in_split[1].crop(x=x, y=y, width=w, height=h)
+
+        video_in = video_in_split[0].overlay(video_in_overlay.filter('scale', width='400', height='400'), x=10, y=10)
+
     # Draw the text boxes.
     video_settings.banner_path.touch(exist_ok=True)
     video_in = video_in.drawtext(textfile=video_settings.banner_path.as_posix(),
