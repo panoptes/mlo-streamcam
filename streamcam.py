@@ -22,7 +22,7 @@ def show_debug(turn_off: bool = False):
         if turn_off:
             f.write('Project PANOPTES MLO Streamcam')
         else:
-            f.write(video_settings.json(indent=2, exclude={'stream_key'})):
+            f.write(video_settings.json(indent=2, exclude={'stream_key'}))
             
 
 
