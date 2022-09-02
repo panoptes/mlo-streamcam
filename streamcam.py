@@ -21,7 +21,7 @@ def show_debug(turn_off: bool = False):
     with video_settings.banner_path.open('w') as f:
         if turn_off:
             f.write('Project PANOPTES MLO Streamcam')
-        else
+        else:
             f.write(video_settings.json(indent=2, exclude={'stream_key'})):
             
 
