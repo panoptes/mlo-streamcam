@@ -55,6 +55,20 @@ sudo ln -s $PWD/supervisord.conf /etc/supervisor/conf.d/
 
 ## Usage
 
+The system is controlled by `supervisord`, which is responsible for running both the `stream` and the `monitor` described below. To control the system you should use `supervisorctl` instead of calling the scripts directly.
+
+#### Restarting the service
+
+If you need to manually restart the service call the below two commands:
+
+```bash
+sudo supervisorctl stop stream
+sudo supervisorctl start stream
+```
+
+Note that it takes a few seconds for `stop stream` to kill all the `ffmpeg` processes and for some reason using `supervisorctl restart stream` doesn't wait, so the camera gets jammed.  Always use the explicit `stop/start`.
+
+
 ### streamcam stream
 
 The video stream is being done by `ffmpeg` via the [`ffmpeg-ptyhon`](https://github.com/kkroening/ffmpeg-python)
