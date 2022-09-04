@@ -23,7 +23,6 @@ def show_debug(turn_off: bool = False):
             f.write('Project PANOPTES MLO Streamcam')
         else:
             f.write(video_settings.json(indent=2, exclude={'stream_key'}))
-            
 
 
 @app.command('stream')
@@ -58,7 +57,8 @@ def stream_video(dry_run: bool = False):
         video_in_split = video_in.filter_multi_output('split')
         video_in_overlay = video_in_split[1].crop(x=x, y=y, width=w, height=h)
 
-        video_in = video_in_split[0].overlay(video_in_overlay.filter('scale', width='400', height='400'), x=10, y=10)
+        video_in = video_in_split[0].overlay(
+            video_in_overlay.filter('scale', width='400', height='400'), x=10, y=10)
         # Show the box on the original
         video_in = video_in.drawbox(x, y, w, h, color='red', thickness=3)
 
