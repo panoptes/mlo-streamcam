@@ -5,7 +5,8 @@ from pydantic import BaseSettings, BaseModel
 
 class TextStyle(BaseModel):
     fontcolor: str = 'yellow'
-    fontsize: int = 36
+    fontsize: int = 24
+    font: str = 'mono'
     box: int = 1
     boxcolor: str = 'black@0.5'
     boxborderw: int = 5
