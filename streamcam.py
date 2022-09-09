@@ -37,11 +37,13 @@ def stream_video(dry_run: bool = False):
         return
 
     # Set up the video source and a fake audio source.
-    video_in = ffmpeg.input(video_settings.device, s=video_settings.video_size,
+    video_in = ffmpeg.input(video_settings.device,
+                            s=video_settings.video_size,
                             framerate=video_settings.framerate,
                             thread_queue_size=video_settings.thread_queue_size)
     audio_in = ffmpeg.input('anullsrc', format='lavfi')
 
+    # Set up the video filters.
     if video_settings.filters > '':
         for filter_name, filter_kwargs in parse_filters(video_settings.filters):
             video_in = video_in.filter(filter_name, **filter_kwargs)
@@ -52,6 +54,7 @@ def stream_video(dry_run: bool = False):
     # Turn on or off the debug info.
     show_debug(video_settings.debug)
 
+    # Show a zoomed in view of an area of the image.
     if video_settings.zoom_box is not None:
         x, y, w, h = video_settings.zoom_box.split(',')
         video_in_split = video_in.filter_multi_output('split')
@@ -90,7 +93,7 @@ def stream_video(dry_run: bool = False):
                            maxrate=video_settings.max_rate
                            )
 
-    # Run the command.
+    # Run (or just show) the command.
     if dry_run:
         typer.secho(output.compile(), fg=typer.colors.BLUE)
         if video_settings.stream_key is None:
