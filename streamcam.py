@@ -52,7 +52,7 @@ def stream_video(dry_run: bool = False):
         video_in = video_in.filter('zmq')
 
     # Turn on or off the debug info.
-    show_debug(video_settings.debug)
+    show_debug(not video_settings.debug)
 
     # Show a zoomed in view of an area of the image.
     if video_settings.zoom_box is not None:
