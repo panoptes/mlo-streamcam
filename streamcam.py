@@ -4,6 +4,7 @@ import time
 from datetime import datetime as dt
 from pathlib import Path
 
+import zmq
 import ffmpeg
 import typer
 from panoptes.utils.serial.device import SerialDevice
@@ -12,6 +13,14 @@ from panoptes.utils.serializers import from_json, to_json
 from settings import VideoSettings
 
 app = typer.Typer()
+
+
+@app.command('filter')
+def send_filter_cmd(cmd: str = ''):
+    """Sends a filter command to the running ffmpeg instance."""
+    req = zmq.Context().socket(zmq.REQ)
+    req.connect('tcp://localhost:5555')
+    req.send_string(cmd)
 
 
 @app.command('debug')
