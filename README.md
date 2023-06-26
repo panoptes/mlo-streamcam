@@ -50,8 +50,10 @@ The [`supervisord.conf`](supervisord.conf) provided in the repo will start both 
 should be symlinked into the main `supervisord` configuration directory:
 
 ```bash
-sudo ln -s $PWD/supervisord.conf /etc/supervisor/conf.d/
+sudo ln -s $PWD/streamcam-supervisord.conf /etc/supervisor/conf.d/
 ```
+
+> Note: The `streamcam-supervisord.conf` file assumes your username is `panoptes` and your home directory is `/home/panoptes`. If this is different then alter the above file for your correct username and home directory.
 
 ## Usage
 
