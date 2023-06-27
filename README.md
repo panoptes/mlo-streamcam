@@ -55,43 +55,6 @@ sudo ln -s $PWD/streamcam-supervisord.conf /etc/supervisor/conf.d/
 
 > Note: The `streamcam-supervisord.conf` file assumes your username is `panoptes` and your home directory is `/home/panoptes`. If this is different then alter the above file for your correct username and home directory.
 
-## Usage
-
-The system is controlled by `supervisord`, which is responsible for running both the `stream` and the `monitor` described below. To control the system you should use `supervisorctl` instead of calling the scripts directly.
-
-#### Restarting the service
-
-If you need to manually restart the service call the below two commands:
-
-```bash
-sudo supervisorctl stop stream
-sudo supervisorctl start stream
-```
-
-Note that it takes a few seconds for `stop stream` to kill all the `ffmpeg` processes and for some reason using `supervisorctl restart stream` doesn't wait, so the camera gets jammed.  Always use the explicit `stop/start`.
-
-
-### streamcam stream
-
-The video stream is being done by `ffmpeg` via the [`ffmpeg-ptyhon`](https://github.com/kkroening/ffmpeg-python)
-wrapper.
-
-Options for ffmpeg are controlled via environment variables. See the [settings](#settings) section below.
-
-The script overlays two text files onto the video, the `banner.txt` in the lower
-left corner and the `time.txt` in the lower right.
-
-The `banner.txt` file can be updated manually and will update in the video as soon as the file is saved. If the
-environment variable `DEBUG=true` then the contents of `.env` (except the `STREAM_KEY`) will be displayed instead of the banner.
-
-The `time.txt` file is updated automatically by the `monitor` sub-command.
-
-### streamcam monitor
-
-The `monitor` sub-command reads the serial output from the [pico-controller/main.py](pico-controller/main.py) file and
-stores it locally as `pico-log.json` text file. It also updates the `time.txt` file with the current time and the
-current temperature.
-
 ## Settings
 
 <a name="settings"></a>
@@ -111,6 +74,71 @@ BUF_SIZE=2M
 ```
 
 See the [`settings.py`](settings.py) file for a list of all the available settings.
+
+## Usage
+
+### cli
+
+You can run the program via the `streamcam.py` file, using the `stream` and `monitor` subcommands.
+
+### streamcam stream
+
+```py
+python streamcam.py stream
+```
+
+The video stream is being done by `ffmpeg` via the [`ffmpeg-ptyhon`](https://github.com/kkroening/ffmpeg-python)
+wrapper.
+
+Options for ffmpeg are controlled via environment variables. See the [settings](#settings) section below.
+
+The script overlays two text files onto the video, the `banner.txt` in the lower
+left corner and the `time.txt` in the lower right.
+
+The `banner.txt` file can be updated manually and will update in the video as soon as the file is saved. If the
+environment variable `DEBUG=true` then the contents of `.env` (except the `STREAM_KEY`) will be displayed instead of the banner.
+
+The `time.txt` file is updated automatically by the `monitor` sub-command.
+
+### streamcam monitor
+
+```py
+python streamcam.py stream
+```
+
+The `monitor` sub-command reads the serial output from the [pico-controller/main.py](pico-controller/main.py) file and
+stores it locally as `pico-log.json` text file. It also updates the `time.txt` file with the current time and the
+current temperature.
+
+### start-stream.sh
+
+There is also a bash script that will unload and load the linux kernel module before starting the script, which can be 
+helpful for freezing video.
+
+Note that the bash script does assume the user is named `panoptes` and has a hard-coded python path. You may need to
+adjust as necessary.
+
+
+```bash
+bash start-stream.sh
+```
+
+### supervisor
+
+When running in automatic mode, the system is controlled by `supervisord`, which is responsible for running 
+both the `stream` and the `monitor` described above. To control the system you should use `supervisorctl` instead 
+of calling the scripts directly.
+
+#### Restarting the service
+
+If you need to manually restart the service call the below two commands:
+
+```bash
+sudo supervisorctl stop stream
+sudo supervisorctl start stream
+```
+
+Note that it takes a few seconds for `stop stream` to kill all the `ffmpeg` processes and for some reason using `supervisorctl restart stream` doesn't wait, so the camera gets jammed.  Always use the explicit `stop/start`.
 
 ## pico-controller
 
