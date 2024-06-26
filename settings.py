@@ -1,6 +1,7 @@
 from pathlib import Path
 
-from pydantic import BaseSettings, BaseModel
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings
 
 
 class TextStyle(BaseModel):
@@ -14,7 +15,7 @@ class TextStyle(BaseModel):
 
 class VideoSettings(BaseSettings):
     """Settings for YouTube streaming."""
-    stream_key: str = None
+    stream_key: str | None = None
     device: str = '/dev/video0'
     crf: int = 20
     preset: str = 'superfast'

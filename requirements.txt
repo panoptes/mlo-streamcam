@@ -1,6 +1,7 @@
 ffmpeg-python
 panoptes-utils
 pydantic
+pydantic-settings
 python-dotenv
 pyzmq
 typer
